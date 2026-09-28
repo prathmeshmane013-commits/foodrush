@@ -14,5 +14,6 @@
     <modules>
         <module>discovery-server</module>
         <module>api-gateway</module>
+        <module>user-service</module>
     </modules>
 </project>

@@ -1,9 +1,42 @@
 ### Uses the REST Client extension (humao.rest-client).
-### Click "Send Request" above a request.
+### Click "Send Request" above a request. All calls go through the API Gateway (port 8080).
 
-### Gateway is up (404/503 is fine until services exist)
-GET http://localhost:8080/api/orders/test
+### 1. Register a new customer
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
 
-### Eureka registry (JSON)
+{
+  "name": "Test User",
+  "email": "test@example.com",
+  "password": "secret123"
+}
+
+### 2. Login (copy the "token" from the response)
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "secret123"
+}
+
+### 3. Get my profile (paste your token after "Bearer ")
+GET http://localhost:8080/api/users/me
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwicm9sZSI6IkNVU1RPTUVSIiwidXNlcklkIjoyLCJpYXQiOjE3OTA1NzczNTUsImV4cCI6MTc5MDY2Mzc1NX0.RsooI9dumRW3XYJRUnErkEcRH589talElxFJIHYBnZhqrZ6uYmd2KGqlVmk50RNX
+
+### 4. Login as the default admin
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@foodrush.com",
+  "password": "Admin@123"
+}
+
+### 5. List all users (ADMIN token only, a customer token gets 403)
+GET http://localhost:8080/api/users
+Authorization: Bearer PASTE_ADMIN_TOKEN_HERE
+
+### Eureka registry
 GET http://localhost:8761/eureka/apps
 Accept: application/json

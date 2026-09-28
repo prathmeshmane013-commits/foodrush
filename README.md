@@ -8,7 +8,7 @@ A microservices-based food ordering system built with Spring Boot and Spring Clo
 |---|---|---|
 | discovery-server (Eureka) | 8761 | Done |
 | api-gateway | 8080 | Done |
-| user-service (JWT auth, roles) | 8081 | Next |
+| user-service (JWT auth, roles) | 8081 | Done |
 | restaurant-service | 8082 | Planned |
 | order-service | 8083 | Planned |
 
@@ -47,3 +47,25 @@ Routes are already configured in the gateway for the services that will be added
 Use `api-requests.http` (REST Client extension) to test endpoints from inside VS Code.
 
 Build everything from the terminal: `mvn clean install -DskipTests` in the `foodrush` folder.
+
+## User Service setup (PostgreSQL)
+
+1. Create the database (pgAdmin or psql):
+   ```sql
+   CREATE DATABASE foodrush_user;
+   ```
+2. Open `user-service/src/main/resources/application.yml` and set your PostgreSQL password
+   (or set the `DB_PASSWORD` environment variable).
+3. Start Discovery Server, API Gateway, then User Service.
+   The `users` table is created automatically.
+
+### Endpoints (via gateway, port 8080)
+
+| Method | URL | Access |
+|---|---|---|
+| POST | /api/auth/register | Public, creates a CUSTOMER |
+| POST | /api/auth/login | Public, returns a JWT |
+| GET | /api/users/me | Any logged-in user |
+| GET | /api/users | ADMIN only |
+
+A default admin is created on first start: `admin@foodrush.com` / `Admin@123` (development only).
