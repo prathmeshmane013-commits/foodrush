@@ -1,0 +1,9 @@
+### Uses the REST Client extension (humao.rest-client).
+### Click "Send Request" above a request.
+
+### Gateway is up (404/503 is fine until services exist)
+GET http://localhost:8080/api/orders/test
+
+### Eureka registry (JSON)
+GET http://localhost:8761/eureka/apps
+Accept: application/json
