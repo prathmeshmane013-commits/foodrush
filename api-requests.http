@@ -108,3 +108,53 @@ Authorization: Bearer PASTE_ADMIN_TOKEN_HERE
 ### Eureka registry
 GET http://localhost:8761/eureka/apps
 Accept: application/json
+
+############ ORDER SERVICE ############
+
+### 16. Place an order (any logged-in token; change menuItemId values to real ids from request 9)
+POST http://localhost:8080/api/orders
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwicm9sZSI6IkNVU1RPTUVSIiwidXNlcklkIjoyLCJpYXQiOjE3OTA2NTY2MzIsImV4cCI6MTc5MDc0MzAzMn0.eg0D2gfYgq-VHduUIZeD3VlsWtLL3wqXs53PHFU4c7FPPrkBiVnSwDYanYR9dpjT
+Content-Type: application/json
+
+{
+  "restaurantId": 1,
+  "deliveryAddress": "221B Baker Street, Pune",
+  "items": [
+    { "menuItemId": 1, "quantity": 2 },
+    { "menuItemId": 2, "quantity": 1 }
+  ]
+}
+
+### 17. My orders
+GET http://localhost:8080/api/orders/my
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwicm9sZSI6IkNVU1RPTUVSIiwidXNlcklkIjoyLCJpYXQiOjE3OTA2NTY2MzIsImV4cCI6MTc5MDc0MzAzMn0.eg0D2gfYgq-VHduUIZeD3VlsWtLL3wqXs53PHFU4c7FPPrkBiVnSwDYanYR9dpjT
+
+### 18. Get one order by id (owner or admin)
+GET http://localhost:8080/api/orders/1
+Authorization: Bearer PASTE_TOKEN_HERE
+
+### 19. All orders (ADMIN only)
+GET http://localhost:8080/api/orders
+Authorization: Bearer PASTE_ADMIN_TOKEN_HERE
+
+### 20. Update order status (ADMIN only)
+PUT http://localhost:8080/api/orders/1/status
+Authorization: Bearer PASTE_ADMIN_TOKEN_HERE
+Content-Type: application/json
+
+{
+  "status": "CONFIRMED"
+}
+
+### 21. Try placing an order with a menu item that does not exist (should fail cleanly)
+POST http://localhost:8080/api/orders
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwicm9sZSI6IkNVU1RPTUVSIiwidXNlcklkIjoyLCJpYXQiOjE3OTA2NTY2MzIsImV4cCI6MTc5MDc0MzAzMn0.eg0D2gfYgq-VHduUIZeD3VlsWtLL3wqXs53PHFU4c7FPPrkBiVnSwDYanYR9dpjT
+Content-Type: application/json
+
+{
+  "restaurantId": 1,
+  "deliveryAddress": "Test address",
+  "items": [
+    { "menuItemId": 9999, "quantity": 1 }
+  ]
+}

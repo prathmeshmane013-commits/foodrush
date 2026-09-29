@@ -1,0 +1,24 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: order-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/foodrush_order
+    username: ${DB_USERNAME:postgres}
+    # CHANGE THIS to your own PostgreSQL password (or set the DB_PASSWORD environment variable)
+    password: ${DB_PASSWORD:postgres}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+jwt:
+  # Must be the SAME secret as in user-service, so this service can verify the tokens.
+  secret: ${JWT_SECRET:he9bUW2ljok1yu7uRlBPgihSinoaxgLI18QogazHmgQcykn1NBwk5Mrh4mZItg3k}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka

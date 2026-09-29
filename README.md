@@ -10,7 +10,7 @@ A microservices-based food ordering system built with Spring Boot and Spring Clo
 | api-gateway | 8080 | Done |
 | user-service (JWT auth, roles) | 8081 | Done |
 | restaurant-service | 8082 | Done |
-| order-service | 8083 | Planned |
+| order-service | 8083 | Done |
 
 ## Tech stack
 
@@ -94,3 +94,27 @@ A default admin is created on first start: `admin@foodrush.com` / `Admin@123` (d
 | POST | /api/restaurants/{id}/menu | ADMIN |
 | PUT | /api/restaurants/{id}/menu/{itemId} | ADMIN |
 | DELETE | /api/restaurants/{id}/menu/{itemId} | ADMIN |
+
+## Order Service setup (PostgreSQL)
+
+1. Create the database:
+   ```sql
+   CREATE DATABASE foodrush_order;
+   ```
+2. Set your PostgreSQL password in `order-service/src/main/resources/application.yml`.
+3. The `jwt.secret` must match `user-service` and `restaurant-service`.
+4. Order Service calls Restaurant Service over HTTP (via OpenFeign + Eureka) to fetch each
+   menu item's live price and availability before saving the order. Prices are stored as a
+   snapshot on the order, so later menu changes don't affect past orders.
+
+### Endpoints (via gateway, port 8080)
+
+| Method | URL | Access |
+|---|---|---|
+| POST | /api/orders | Any logged-in user |
+| GET | /api/orders/my | Any logged-in user (their own orders) |
+| GET | /api/orders/{id} | Owner or ADMIN |
+| GET | /api/orders | ADMIN only |
+| PUT | /api/orders/{id}/status | ADMIN only |
+
+Order status flow: PLACED -> CONFIRMED -> PREPARING -> OUT_FOR_DELIVERY -> DELIVERED (or CANCELLED at any point).
