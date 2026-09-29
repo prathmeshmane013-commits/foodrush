@@ -9,7 +9,7 @@ A microservices-based food ordering system built with Spring Boot and Spring Clo
 | discovery-server (Eureka) | 8761 | Done |
 | api-gateway | 8080 | Done |
 | user-service (JWT auth, roles) | 8081 | Done |
-| restaurant-service | 8082 | Planned |
+| restaurant-service | 8082 | Done |
 | order-service | 8083 | Planned |
 
 ## Tech stack
@@ -69,3 +69,28 @@ Build everything from the terminal: `mvn clean install -DskipTests` in the `food
 | GET | /api/users | ADMIN only |
 
 A default admin is created on first start: `admin@foodrush.com` / `Admin@123` (development only).
+
+## Restaurant Service setup (PostgreSQL)
+
+1. Create the database:
+   ```sql
+   CREATE DATABASE foodrush_restaurant;
+   ```
+2. Set your PostgreSQL password in `restaurant-service/src/main/resources/application.yml`.
+3. The `jwt.secret` must be the same as in `user-service`, so this service can verify the tokens.
+4. Start the services. Two sample restaurants with menu items are created on first start.
+
+### Endpoints (via gateway, port 8080)
+
+| Method | URL | Access |
+|---|---|---|
+| GET | /api/restaurants | Public (optional `?cuisine=`) |
+| GET | /api/restaurants/{id} | Public |
+| GET | /api/restaurants/{id}/menu | Public |
+| GET | /api/restaurants/menu-items/{itemId} | Public |
+| POST | /api/restaurants | ADMIN |
+| PUT | /api/restaurants/{id} | ADMIN |
+| DELETE | /api/restaurants/{id} | ADMIN |
+| POST | /api/restaurants/{id}/menu | ADMIN |
+| PUT | /api/restaurants/{id}/menu/{itemId} | ADMIN |
+| DELETE | /api/restaurants/{id}/menu/{itemId} | ADMIN |

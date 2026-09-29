@@ -1,23 +1,22 @@
 server:
-  port: 8081
+  port: 8082
 
 spring:
   application:
-    name: user-service
+    name: restaurant-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/foodrush_user
+    url: jdbc:postgresql://localhost:5432/foodrush_restaurant
     username: ${DB_USERNAME:postgres}
     # CHANGE THIS to your own PostgreSQL password (or set the DB_PASSWORD environment variable)
-    password: ${DB_PASSWORD:0000}
+    password: ${DB_PASSWORD:postgres}
   jpa:
     hibernate:
       ddl-auto: update
     open-in-view: false
 
 jwt:
-  # Base64 secret, dev only. Use an environment variable in real deployments.
+  # Must be the SAME secret as in user-service, so this service can verify the tokens it issues.
   secret: ${JWT_SECRET:he9bUW2ljok1yu7uRlBPgihSinoaxgLI18QogazHmgQcykn1NBwk5Mrh4mZItg3k}
-  expiration-ms: 86400000 # 24 hours
 
 eureka:
   client:

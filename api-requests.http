@@ -1,6 +1,8 @@
 ### Uses the REST Client extension (humao.rest-client).
 ### Click "Send Request" above a request. All calls go through the API Gateway (port 8080).
 
+############ USER SERVICE ############
+
 ### 1. Register a new customer
 POST http://localhost:8080/api/auth/register
 Content-Type: application/json
@@ -22,9 +24,9 @@ Content-Type: application/json
 
 ### 3. Get my profile (paste your token after "Bearer ")
 GET http://localhost:8080/api/users/me
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwicm9sZSI6IkNVU1RPTUVSIiwidXNlcklkIjoyLCJpYXQiOjE3OTA1NzczNTUsImV4cCI6MTc5MDY2Mzc1NX0.RsooI9dumRW3XYJRUnErkEcRH589talElxFJIHYBnZhqrZ6uYmd2KGqlVmk50RNX
+Authorization: Bearer PASTE_TOKEN_HERE
 
-### 4. Login as the default admin
+### 4. Login as the default admin (copy the token, you need it for the admin requests below)
 POST http://localhost:8080/api/auth/login
 Content-Type: application/json
 
@@ -35,6 +37,72 @@ Content-Type: application/json
 
 ### 5. List all users (ADMIN token only, a customer token gets 403)
 GET http://localhost:8080/api/users
+Authorization: Bearer PASTE_ADMIN_TOKEN_HERE
+
+############ RESTAURANT SERVICE ############
+
+### 6. List all restaurants (public, no token needed)
+GET http://localhost:8080/api/restaurants
+
+### 7. Filter by cuisine (public)
+GET http://localhost:8080/api/restaurants?cuisine=Indian
+
+### 8. Get one restaurant (public)
+GET http://localhost:8080/api/restaurants/1
+
+### 9. Get the menu of a restaurant (public)
+GET http://localhost:8080/api/restaurants/1/menu
+
+### 10. Get one menu item by id (public, the order service will use this later)
+GET http://localhost:8080/api/restaurants/menu-items/1
+
+### 11. Create a restaurant (ADMIN token needed)
+POST http://localhost:8080/api/restaurants
+Authorization: Bearer PASTE_ADMIN_TOKEN_HERE
+Content-Type: application/json
+
+{
+  "name": "Burger Hub",
+  "description": "Juicy burgers and fries",
+  "address": "Baner, Pune",
+  "cuisine": "American"
+}
+
+### 12. Add a menu item (ADMIN token needed, change the 3 to your new restaurant id)
+POST http://localhost:8080/api/restaurants/3/menu
+Authorization: Bearer PASTE_ADMIN_TOKEN_HERE
+Content-Type: application/json
+
+{
+  "name": "Cheese Burger",
+  "description": "Double cheese",
+  "price": 150.00
+}
+
+### 13. Update a menu item (ADMIN token needed)
+PUT http://localhost:8080/api/restaurants/3/menu/6
+Authorization: Bearer PASTE_ADMIN_TOKEN_HERE
+Content-Type: application/json
+
+{
+  "name": "Cheese Burger",
+  "description": "Double cheese, extra crispy",
+  "price": 165.00,
+  "available": true
+}
+
+### 14. Try creating a restaurant with a CUSTOMER token (should return 403)
+POST http://localhost:8080/api/restaurants
+Authorization: Bearer PASTE_CUSTOMER_TOKEN_HERE
+Content-Type: application/json
+
+{
+  "name": "Not Allowed",
+  "address": "Nowhere"
+}
+
+### 15. Delete a menu item (ADMIN token needed)
+DELETE http://localhost:8080/api/restaurants/3/menu/6
 Authorization: Bearer PASTE_ADMIN_TOKEN_HERE
 
 ### Eureka registry
