@@ -8,7 +8,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/foodrush_user
     username: ${DB_USERNAME:postgres}
     # CHANGE THIS to your own PostgreSQL password (or set the DB_PASSWORD environment variable)
-    password: ${DB_PASSWORD:0000}
+    password: ${DB_PASSWORD:postgres}
   jpa:
     hibernate:
       ddl-auto: update

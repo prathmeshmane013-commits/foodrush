@@ -9,7 +9,7 @@ Content-Type: application/json
 
 {
   "name": "Test User",
-  "email": "test@example.com",
+  "email": "test4@example.com",
   "password": "secret123"
 }
 
@@ -58,7 +58,7 @@ GET http://localhost:8080/api/restaurants/menu-items/1
 
 ### 11. Create a restaurant (ADMIN token needed)
 POST http://localhost:8080/api/restaurants
-Authorization: Bearer PASTE_ADMIN_TOKEN_HERE
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbkBmb29kcnVzaC5jb20iLCJyb2xlIjoiQURNSU4iLCJ1c2VySWQiOjEsImlhdCI6MTc5MDY1OTkyNywiZXhwIjoxNzkwNzQ2MzI3fQ.M8CYZW5qtCy3DQNpDYR3B1XjPo5OmYMDIpussovyucTUt_-OHtTYZRxHC569VkXY
 Content-Type: application/json
 
 {
@@ -93,7 +93,7 @@ Content-Type: application/json
 
 ### 14. Try creating a restaurant with a CUSTOMER token (should return 403)
 POST http://localhost:8080/api/restaurants
-Authorization: Bearer PASTE_CUSTOMER_TOKEN_HERE
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwicm9sZSI6IkNVU1RPTUVSIiwidXNlcklkIjoyLCJpYXQiOjE3OTA2NTk3ODcsImV4cCI6MTc5MDc0NjE4N30.lRGY4loKM4CnFqYmLRnpnXq18JHYiqAYHEc03B7yt1t_glbzEfHh83QuMhdDFaVz
 Content-Type: application/json
 
 {
